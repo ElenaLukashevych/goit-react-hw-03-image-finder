@@ -25,11 +25,15 @@ class App extends Component {
   }
 
   handleFormSubmit = searchQuery => {
-    this.setState({ searchQuery });
+    this.setState({
+      searchQuery,
+      pictures: [],
+      page: 1
+    });
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { searchQuery } = this.state;
+    const { searchQuery, page } = this.state;
     if (prevState.searchQuery !== searchQuery) {
     this.setState({
       status: 'pending',
@@ -38,7 +42,7 @@ class App extends Component {
     })
       this.getImages()
     }
-    if (this.state.page !== prevState.page && this.state.page !== 1) {
+    if (page !== prevState.page && page !== 1) {
       this.getImages()
        this.setState({
       status: 'pending',
@@ -110,7 +114,7 @@ try {
         </div>}
         {status === 'rejected' && <h2>{error.message}</h2>}
         {showModal && <Modal onClose={toggleModal}>
-          <img src={ modalImage.largeImageURL } alt={ modalImage.tags } />
+          <img className={s.modalImage} src={ modalImage.largeImageURL } alt={ modalImage.tags } />
         </Modal>}
         <ToastContainer autoClose={3000} />
         </div>

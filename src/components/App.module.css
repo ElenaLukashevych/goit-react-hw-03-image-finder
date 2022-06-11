@@ -17,3 +17,8 @@
   font-style: italic;
   font-size: 30px;
 }
+
+.modalImage {
+  width: 800px;
+  height: auto;
+}
