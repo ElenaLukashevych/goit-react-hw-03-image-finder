@@ -12,6 +12,7 @@ import Modal from "components/Modal";
 import api from '../services/api';
 import s from './App.module.css';
 
+
 class App extends Component {
    state = {
      searchQuery: '',
@@ -25,15 +26,17 @@ class App extends Component {
   }
 
   handleFormSubmit = searchQuery => {
-    this.setState({
-      searchQuery,
-      pictures: [],
-      page: 1
-    });
+    if (this.state.searchQuery !== searchQuery) {
+      this.setState({
+        searchQuery: searchQuery,
+         page: 1
+      });
+    }
   };
 
   componentDidUpdate = (prevProps, prevState) => {
     const { searchQuery, page } = this.state;
+    
     if (prevState.searchQuery !== searchQuery) {
     this.setState({
       status: 'pending',
@@ -56,6 +59,7 @@ class App extends Component {
     
 try {
   const images = await api.getPictures(searchQuery, page);
+
 
   if (images.hits.length === 0) {
     this.setState({
@@ -101,7 +105,7 @@ try {
   }
   
   render() {
-    const { handleFormSubmit, handleButtonClick,toggleModal, onClickImage } = this;
+    const { handleFormSubmit, handleButtonClick, toggleModal, onClickImage } = this;
     const { pictures, status, total, error, showModal, modalImage } = this.state;
     return (
       <div className={s.App}>
